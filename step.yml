@@ -1,0 +1,64 @@
+#
+# A couple of useful guides & docs:
+#
+# - Main Bitrise CLI docs: https://github.com/bitrise-io/bitrise/tree/master/_docs
+# - Step Development Guideline: https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+# - Bitrise.yml format spec: https://github.com/bitrise-io/bitrise/blob/master/_docs/bitrise-yml-format-spec.md
+# - Bitrise docs: http://devcenter.bitrise.io/
+# - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
+
+title: |-
+  discord notifier
+summary: |
+   Notify discord channel about build status
+description: |
+   Notify discord channel about build status
+website: https://github.com/realappie/bitrise-step-discord-notifier
+source_code_url: https://github.com/realappie/bitrise-step-discord-notifier
+support_url: https://github.com/realappie/bitrise-step-discord-notifier/issues
+host_os_tags:
+  - osx-10.10
+  - ubuntu-16.04
+
+# Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
+# You can find more information about type tags in the Step Development Guideline:
+# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+type_tags:
+  - notification
+
+is_requires_admin_user: true
+is_always_run: true
+is_skippable: false
+run_if: ""
+
+deps:
+  brew:
+  - name: git
+  - name: wget
+  apt_get:
+  - name: git
+  - name: wget
+
+
+toolkit:
+  bash:
+    entry_file: step.sh
+
+
+inputs:
+  - DISCORD_WEBHOOK_TOKEN: $DISCORD_WEBHOOK_TOKEN
+    opts:
+      description: |
+        The discord webhook token, once you create a webhook in your server settings this will be the last
+        segment of the url.
+        You can also set it as a Secret with the name `DISCORD_WEBHOOK_TOKEN`
+      is_required: true
+      title: Discord webhook token id
+  - DISCORD_WEBHOOK_ID: $DISCORD_WEBHOOK_ID
+    opts:
+      description: |
+        The discord webhook id, once you create a webhook in your server settings this will be the second to last
+        segment of the url and will usually be a big number. It will become before the DISCORD_WEBHOOK_TOKEN value
+        You can also set it as a Secret with the name `DISCORD_WEBHOOK_ID`
+      is_required: true
+      title: Discord webhook id
